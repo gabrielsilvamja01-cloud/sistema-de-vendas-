@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINHUZ - Loja de Artesanatos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, rgba(140, 191, 150, 0.18), transparent 28%),
+                        radial-gradient(circle at bottom right, rgba(143, 194, 138, 0.16), transparent 28%),
+                        linear-gradient(180deg, #f6fbf6 0%, #eef7ef 35%, #f2faf4 100%);
+            color: #2d5a4a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #9fc8af 0%, #75b18f 100%);
+            padding: 2rem 0;
+            box-shadow: 0 12px 35px rgba(86, 153, 119, 0.18);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.12);
+            letter-spacing: 2px;
+        }
+
+        .logo-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 3rem;
+        }
+
+        .info-entrega {
+            background: rgba(255, 255, 255, 0.18);
+            padding: 0.9rem 1.6rem;
+            border-radius: 22px;
+            color: white;
+            font-size: 0.95rem;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .info-entrega strong {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+            padding: 2.5rem 2rem;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.76);
+            box-shadow: 0 24px 50px rgba(97, 144, 109, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            color: #386a57;
+            margin-bottom: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #4f8a70;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #6ba58a;
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+
+        /* Produtos Grid */
+        .produtos-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #3d7a65;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #c8e6c9;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: "📦";
+            font-size: 2.2rem;
+        }
+
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .produto-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.35s ease;
+            box-shadow: 0 24px 45px rgba(92, 146, 113, 0.12);
+            border: 1px solid rgba(136, 196, 153, 0.3);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .produto-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transition: left 0.6s;
+        }
+
+        .produto-card:hover::before {
+            left: 100%;
+        }
+
+        .produto-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 26px 50px rgba(80, 148, 110, 0.18);
+            border-color: rgba(127, 190, 154, 0.55);
+            background: rgba(239, 252, 245, 0.95);
+        }
+
+        .produto-id {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 56px;
+            background: #80b78a;
+            color: white;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            margin-bottom: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .produto-icon {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .produto-card:nth-child(2) .produto-icon {
+            animation-delay: 0.2s;
+        }
+
+        .produto-card:nth-child(3) .produto-icon {
+            animation-delay: 0.4s;
+        }
+
+        .produto-card:nth-child(4) .produto-icon {
+            animation-delay: 0.6s;
+        }
+
+        .produto-card:nth-child(5) .produto-icon {
+            animation-delay: 0.8s;
+        }
+
+        .produto-nome {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #3d7a65;
+            margin-bottom: 0.8rem;
+        }
+
+        .produto-descricao {
+            font-size: 0.9rem;
+            color: #5a9e88;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .produto-status {
+            background: #d4edda;
+            color: #2d5a4a;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .produto-status::before {
+            content: "⏳";
+        }
+
+        .quantidade-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 2px solid #c8e6c9;
+        }
+
+        .quantidade-input button {
+            background: #a8d5ba;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .quantidade-input button:hover {
+            background: #7ec8a3;
+        }
+
+        .quantidade-input input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            font-weight: 600;
+            color: #3d7a65;
+        }
+
+        .btn-adicionar {
+            width: 100%;
+            padding: 0.95rem;
+            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 10px 18px rgba(100, 156, 121, 0.18);
+        }
+
+        .btn-adicionar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 22px rgba(100, 156, 121, 0.25);
+        }
+
+        .btn-adicionar:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 14px rgba(100, 156, 121, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        footer p {
+            margin: 0.3rem 0;
+            font-size: 0.95rem;
+        }
+
+        footer strong {
+            display: block;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Notificação */
+        .notificacao {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #a8d5ba;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(122, 196, 150, 0.3);
+            animation: slideIn 0.5s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Ícone Carrinho Flutuante */
+        .carrinho-flutuante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #a8d5ba 0%, #7ec8a3 100%);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(122, 196, 150, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            z-index: 999;
+            border: 3px solid white;
+        }
+
+        .carrinho-flutuante:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 30px rgba(122, 196, 150, 0.6);
+            bottom: 40px;
+        }
+
+        .carrinho-flutuante:active {
+            transform: scale(0.95);
+        }
+
+        .carrinho-icon {
+            font-size: 1.7rem;
+            animation: balancear 2s ease-in-out infinite;
+        }
+
+        .carrinho-contador {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #d4a5a5;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes balancear {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-5deg);
+            }
+            75% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .produtos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carrinho-flutuante {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .carrinho-icon {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🌿</span>LINHUZ
+            </div>
+            <div class="info-entrega">
+                <strong>📍 Entrega em Limeira, SP</strong>
+                Taxa fixa: R$ 10,00
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <h1>Bem-vindo à LINHUZ</h1>
+            <p>Artesanatos exclusivos sob encomenda</p>
+            <p class="hero-subtitle">Todos os nossos produtos são feitos com carinho e dedicação</p>
+        </section>
+
+        <!-- Produtos -->
+        <section class="produtos-section">
+            <h2 class="section-title">Nossos Produtos</h2>
+            <div class="produtos-grid">
+                <!-- Produto 1 -->
+                <div class="produto-card">
+                    <span class="produto-id">ID: 01</span>
+                    <div class="produto-icon">✨</div>
+                    <h3 class="produto-nome">Filtro dos Sonhos</h3>
+                    <p class="produto-descricao">Lindo filtro dos sonhos artesanal, feito à mão com detalhes delicados</p>
+                    <div class="produto-status">Sob Encomenda</div>
+                    <div class="quantidade-input">
+                        <button onclick="diminuir(this)">−</button>
+                        <input type="number" value="1" min="1" readonly>
+                        <button onclick="aumentar(this)">+</button>
+                    </div>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Filtro dos Sonhos', this)">Adicionar ao Carrinho</button>
+                </div>
+
+                <!-- Produto 2 -->
+                <div class="produto-card">
+                    <span class="produto-id">ID: 02</span>
+                    <div class="produto-icon">👜</div>
+                    <h3 class="produto-nome">Bolça de Crochê</h3>
+                    <p class="produto-descricao">Bolsa elegante feita em crochê, ideal para qualquer ocasião</p>
+                    <div class="produto-status">Sob Encomenda</div>
+                    <div class="quantidade-input">
+                        <button onclick="diminuir(this)">−</button>
+                        <input type="number" value="1" min="1" readonly>
+                        <button onclick="aumentar(this)">+</button>
+                    </div>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bolça de Crochê', this)">Adicionar ao Carrinho</button>
+                </div>
+
+                <!-- Produto 3 -->
+                <div class="produto-card">
+                    <span class="produto-id">ID: 03</span>
+                    <div class="produto-icon">🪑</div>
+                    <h3 class="produto-nome">Bincos Artesanais</h3>
+                    <p class="produto-descricao">Bancos decorativos artesanais, peças únicas para sua casa</p>
+                    <div class="produto-status">Sob Encomenda</div>
+                    <div class="quantidade-input">
+                        <button onclick="diminuir(this)">−</button>
+                        <input type="number" value="1" min="1" readonly>
+                        <button onclick="aumentar(this)">+</button>
+                    </div>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bincos Artesanais', this)">Adicionar ao Carrinho</button>
+                </div>
+
+                <!-- Produto 4 -->
+                <div class="produto-card">
+                    <span class="produto-id">ID: 04</span>
+                    <div class="produto-icon">👚</div>
+                    <h3 class="produto-nome">Top de Crochê</h3>
+                    <p class="produto-descricao">Top moderno em crochê fino, elegante e confortável</p>
+                    <div class="produto-status">Sob Encomenda</div>
+                    <div class="quantidade-input">
+                        <button onclick="diminuir(this)">−</button>
+                        <input type="number" value="1" min="1" readonly>
+                        <button onclick="aumentar(this)">+</button>
+                    </div>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Top de Crochê', this)">Adicionar ao Carrinho</button>
+                </div>
+
+                <!-- Produto 5 -->
+                <div class="produto-card">
+                    <span class="produto-id">ID: 05</span>
+                    <div class="produto-icon">🎀</div>
+                    <h3 class="produto-nome">Bandana</h3>
+                    <p class="produto-descricao">Bandana estilosa e confortável, perfeita para qualquer estilo</p>
+                    <div class="produto-status">Sob Encomenda</div>
+                    <div class="quantidade-input">
+                        <button onclick="diminuir(this)">−</button>
+                        <input type="number" value="1" min="1" readonly>
+                        <button onclick="aumentar(this)">+</button>
+                    </div>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bandana', this)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>🌿 LINHUZ - Artesanatos com Amor</p>
+        <p>Todos os produtos são sob encomenda</p>
+        <strong>Envios apenas para Limeira, São Paulo</strong>
+    </footer>
+
+    <script>
+        function aumentar(btn) {
+            const input = btn.previousElementSibling;
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function diminuir(btn) {
+            const input = btn.nextElementSibling;
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+
+        function adicionarAoCarrinho(nomeProduto, btn) {
+            const input = btn.previousElementSibling.querySelector('input');
+            const quantidade = input.value;
+
+            // Simular adição ao carrinho
+            mostrarNotificacao(`✓ ${nomeProduto} (${quantidade}x) adicionado ao carrinho!`);
+
+            // Armazenar no localStorage
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            const itemExistente = carrinho.find(item => item.nome === nomeProduto);
+
+            if (itemExistente) {
+                itemExistente.quantidade += parseInt(quantidade, 10);
+            } else {
+                carrinho.push({ nome: nomeProduto, quantidade: parseInt(quantidade, 10) });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarContadorCarrinho();
+        }
+
+        function mostrarNotificacao(mensagem) {
+            const notif = document.createElement('div');
+            notif.className = 'notificacao';
+            notif.textContent = mensagem;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.remove();
+            }, 3000);
+        }
+
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            const contador = document.querySelector('.carrinho-contador');
+            if (contador) {
+                contador.textContent = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            }
+        }
+
+        function irParaCarrinho() {
+            window.location.href = 'carrin.html';
+        }
+
+        // Atualizar contador ao carregar a página
+        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+    </script>
+    <a class="carrinho-flutuante" onclick="irParaCarrinho()" title="Ir para o carrinho">
+        <span class="carrinho-icon">🛒</span>
+        <span class="carrinho-contador">0</span>
+    </a>
+</body>
+</html>

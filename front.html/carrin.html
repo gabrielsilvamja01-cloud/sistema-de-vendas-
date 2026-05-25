@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - LINHUZ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, rgba(140, 191, 150, 0.18), transparent 26%),
+                        radial-gradient(circle at bottom right, rgba(143, 194, 138, 0.14), transparent 26%),
+                        linear-gradient(180deg, #f7fbf7 0%, #eff7ef 40%, #f5fbf5 100%);
+            color: #2d5a4a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #95c1a3 0%, #6daa88 100%);
+            padding: 1.5rem 0;
+            box-shadow: 0 14px 35px rgba(84, 150, 110, 0.18);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 2px;
+        }
+
+        .logo-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-voltar {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Título */
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: #3d7a65;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #5a9e88;
+            font-size: 1rem;
+        }
+
+        /* Layout Principal */
+        .carrinho-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Itens do Carrinho */
+        .carrinho-itens {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(122, 196, 150, 0.1);
+            border: 2px solid #c8e6c9;
+        }
+
+        .carrinho-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #c8e6c9;
+        }
+
+        .carrinho-header h2 {
+            font-size: 1.5rem;
+            color: #3d7a65;
+        }
+
+        .item-count {
+            background: #a8d5ba;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .item-carrinho {
+            background: linear-gradient(135deg, #f0f9f5 0%, #e8f5e9 100%);
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .item-carrinho:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(122, 196, 150, 0.15);
+            border-color: #a8d5ba;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-nome {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #3d7a65;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-status {
+            font-size: 0.85rem;
+            color: #7db89d;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantidade-ajuste {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: white;
+            padding: 0.4rem;
+            border-radius: 8px;
+            border: 2px solid #c8e6c9;
+        }
+
+        .quantidade-ajuste button {
+            background: #a8d5ba;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .quantidade-ajuste button:hover {
+            background: #7ec8a3;
+        }
+
+        .quantidade-ajuste input {
+            width: 45px;
+            text-align: center;
+            border: none;
+            font-weight: 600;
+            color: #3d7a65;
+        }
+
+        .btn-remover {
+            background: #d4a5a5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-remover:hover {
+            background: #c98b8b;
+        }
+
+        .carrinho-vazio {
+            text-align: center;
+            padding: 3rem;
+            color: #5a9e88;
+        }
+
+        .carrinho-vazio p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Resumo do Pedido */
+        .resumo-pedido {
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 26px;
+            padding: 2rem;
+            box-shadow: 0 24px 45px rgba(92, 146, 113, 0.12);
+            border: 1px solid rgba(121, 190, 149, 0.28);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            backdrop-filter: blur(10px);
+        }
+
+        .resumo-titulo {
+            font-size: 1.5rem;
+            color: #386a57;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #c8e6c9;
+            letter-spacing: 0.01em;
+        }
+
+        .resumo-linha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0f2e0;
+        }
+
+        .resumo-linha:last-of-type {
+            border-bottom: none;
+        }
+
+        .resumo-label {
+            color: #5a9e88;
+            font-weight: 600;
+        }
+
+        .resumo-valor {
+            color: #3d7a65;
+            font-weight: 700;
+        }
+
+        .resumo-total {
+            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
+            color: white;
+            padding: 1.1rem;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 1.2rem 0;
+            box-shadow: 0 10px 20px rgba(77, 140, 101, 0.18);
+        }
+
+        /* Dados do Cliente */
+        .dados-cliente {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #c8e6c9;
+        }
+
+        .dados-cliente-titulo {
+            font-size: 1rem;
+            color: #3d7a65;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #5a9e88;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px;
+            font-family: inherit;
+            color: #3d7a65;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #a8d5ba;
+            box-shadow: 0 0 0 3px rgba(168, 213, 186, 0.1);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Botões */
+        .botoes-acao {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primario {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 12px 24px rgba(77, 140, 101, 0.2);
+        }
+
+        .btn-primario:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(77, 140, 101, 0.28);
+        }
+
+        .btn-primario:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secundario {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.85);
+            color: #3d7a65;
+            border: 2px solid rgba(120, 180, 138, 0.35);
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: 0 8px 18px rgba(105, 152, 125, 0.12);
+        }
+
+        .btn-secundario:hover {
+            transform: translateY(-1px);
+            background: rgba(242, 249, 243, 0.95);
+            border-color: #7dbb8f;
+        }
+
+        /* Notificação */
+        .notificacao {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.5s ease-out;
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .notificacao.sucesso {
+            background: #a8d5ba;
+            color: white;
+        }
+
+        .notificacao.erro {
+            background: #d4a5a5;
+            color: white;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .carrinho-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .resumo-pedido {
+                position: static;
+                top: auto;
+            }
+
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .item-carrinho {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-controls {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🛒</span>LINHUZ
+            </div>
+            <div class="header-actions">
+                <a href="pag_inicio.html" class="btn-voltar">← Voltar para Loja</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <section class="page-title">
+            <h1>Seu Carrinho</h1>
+            <p>Revise seus produtos antes de enviar o pedido</p>
+        </section>
+
+        <div class="carrinho-layout">
+            <!-- Itens do Carrinho -->
+            <div class="carrinho-itens">
+                <div class="carrinho-header">
+                    <h2>Produtos</h2>
+                    <span class="item-count" id="item-count">0</span>
+                </div>
+                <div id="itens-container">
+                    <div class="carrinho-vazio">
+                        <p>🛍️ Seu carrinho está vazio</p>
+                        <p style="font-size: 0.9rem;">Adicione produtos na página inicial para começar!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo do Pedido -->
+            <div class="resumo-pedido">
+                <div class="resumo-titulo">📋 Resumo do Pedido</div>
+
+                <div class="resumo-linha">
+                    <span class="resumo-label">Total de Itens:</span>
+                    <span class="resumo-valor" id="total-itens">0</span>
+                </div>
+
+                <div class="resumo-linha">
+                    <span class="resumo-label">Taxa Entrega:</span>
+                    <span class="resumo-valor">R$ 10,00</span>
+                </div>
+
+                <div class="resumo-linha">
+                    <span class="resumo-label">Região:</span>
+                    <span class="resumo-valor">Limeira, SP</span>
+                </div>
+
+                <div class="resumo-linha">
+                    <span class="resumo-label">Status:</span>
+                    <span class="resumo-valor">⏳ Sob Encomenda</span>
+                </div>
+
+                <div class="resumo-total">
+                    ✓ Tudo pronto para encomendar!
+                </div>
+
+                <!-- Dados do Cliente -->
+                <div class="dados-cliente">
+                    <div class="dados-cliente-titulo">👤 Seus Dados</div>
+
+                    <div class="input-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="endereco">Endereço de Entrega</label>
+                        <textarea id="endereco" placeholder="Rua, número, bairro, complemento..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="telefone">Telefone/WhatsApp</label>
+                        <input type="tel" id="telefone" placeholder="(19) 98169-9376">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" placeholder="Tem alguma observação especial?"></textarea>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="botoes-acao">
+                        <button class="btn-primario" onclick="finalizarPedido()" id="btn-finalizar">
+                            📱 Enviar Pedido via WhatsApp
+                        </button>
+                        <button class="btn-secundario" onclick="limparCarrinho()">
+                            🗑️ Limpar Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carregar carrinho ao abrir a página
+        document.addEventListener('DOMContentLoaded', carregarCarrinho);
+
+        function carregarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            atualizarVisualizacao(carrinho);
+        }
+
+        function atualizarVisualizacao(carrinho) {
+            const container = document.getElementById('itens-container');
+            const totalItens = document.getElementById('total-itens');
+            const itemCount = document.getElementById('item-count');
+
+            if (carrinho.length === 0) {
+                container.innerHTML = `
+                    <div class="carrinho-vazio">
+                        <p>🛍️ Seu carrinho está vazio</p>
+                        <p style="font-size: 0.9rem;">Adicione produtos na página inicial para começar!</p>
+                    </div>
+                `;
+                totalItens.textContent = '0';
+                itemCount.textContent = '0';
+                document.getElementById('btn-finalizar').disabled = true;
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = carrinho.map((item, index) => {
+                total += item.quantidade;
+                return `
+                    <div class="item-carrinho">
+                        <div class="item-info">
+                            <div class="item-nome">${item.nome}</div>
+                            <div class="item-status">⏳ Sob Encomenda</div>
+                        </div>
+                        <div class="item-controls">
+                            <div class="quantidade-ajuste">
+                                <button onclick="diminuirQuantidade(${index})">−</button>
+                                <input type="number" value="${item.quantidade}" min="1" readonly>
+                                <button onclick="aumentarQuantidade(${index})">+</button>
+                            </div>
+                            <button class="btn-remover" onclick="removerItem(${index})">Remover</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalItens.textContent = total;
+            itemCount.textContent = carrinho.length;
+            document.getElementById('btn-finalizar').disabled = false;
+        }
+
+        function aumentarQuantidade(index) {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            carrinho[index].quantidade += 1;
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarVisualizacao(carrinho);
+        }
+
+        function diminuirQuantidade(index) {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            if (carrinho[index].quantidade > 1) {
+                carrinho[index].quantidade -= 1;
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+                atualizarVisualizacao(carrinho);
+            }
+        }
+
+        function removerItem(index) {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarVisualizacao(carrinho);
+            mostrarNotificacao('Produto removido do carrinho', 'sucesso');
+        }
+
+        function limparCarrinho() {
+            if (confirm('Tem certeza que deseja limpar o carrinho?')) {
+                localStorage.removeItem('carrinho');
+                atualizarVisualizacao([]);
+                mostrarNotificacao('Carrinho limpo!', 'sucesso');
+            }
+        }
+
+        function finalizarPedido() {
+            const nome = document.getElementById('nome').value.trim();
+            const endereco = document.getElementById('endereco').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const observacoes = document.getElementById('observacoes').value.trim();
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+
+            if (!nome) {
+                mostrarNotificacao('Por favor, digite seu nome', 'erro');
+                return;
+            }
+
+            if (!endereco) {
+                mostrarNotificacao('Por favor, digite o endereço de entrega', 'erro');
+                return;
+            }
+
+            if (carrinho.length === 0) {
+                mostrarNotificacao('Seu carrinho está vazio!', 'erro');
+                return;
+            }
+
+            // Montar mensagem
+            let mensagem = '🛍️ *PEDIDO LINHUZ*\n\n';
+            mensagem += 'Olá! Gostaria de encomendar:\n\n';
+
+            carrinho.forEach(item => {
+                mensagem += `• ${item.nome} - Quantidade: ${item.quantidade}\n`;
+            });
+
+            const dataAtual = new Date().toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            mensagem += `\n*Endereço de entrega:* ${endereco}\n`;
+            mensagem += `*Data do pedido:* ${dataAtual}\n`;
+            mensagem += `*Taxa de entrega:* R$ 10,00\n`;
+            mensagem += `*Região:* Limeira, São Paulo\n`;
+            
+            if (observacoes) {
+                mensagem += `*Observações:* ${observacoes}\n`;
+            }
+
+            mensagem += `*Contato:* ${telefone}\n`;
+            mensagem += `*Cliente:* ${nome}\n\n`;
+            mensagem += 'Por favor, confirme o pedido!';
+
+            // Codificar e enviar para WhatsApp
+            const numeroWhatsapp = '5519981699376';
+            const mensagemCodificada = encodeURIComponent(mensagem);
+            const linkWhatsApp = `https://wa.me/${numeroWhatsapp}?text=${mensagemCodificada}`;
+
+            window.open(linkWhatsApp, '_blank');
+            mostrarNotificacao('✓ Você será redirecionado para o WhatsApp!', 'sucesso');
+
+            // Limpar carrinho após sucesso
+            setTimeout(() => {
+                localStorage.removeItem('carrinho');
+                atualizarVisualizacao([]);
+            }, 1000);
+        }
+
+        function mostrarNotificacao(mensagem, tipo) {
+            const notif = document.createElement('div');
+            notif.className = `notificacao ${tipo}`;
+            notif.textContent = mensagem;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
