@@ -1,655 +1,1720 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LINHUZ - Loja de Artesanatos</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LINHUZ - Artesanatos Exclusivos & Crochê</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      :root {
+        --primary: #2d6a4f;
+        --primary-light: #52b788;
+        --primary-dark: #1b4332;
+        --accent: #d4a373;
+        --accent-hover: #bc8a5f;
+        --bg-gradient: linear-gradient(
+          135deg,
+          #f4f9f5 0%,
+          #e8f3ec 50%,
+          #f0f7f2 100%
+        );
+        --card-bg: rgba(255, 255, 255, 0.88);
+        --card-border: rgba(82, 183, 136, 0.25);
+        --text-main: #1c3127;
+        --text-muted: #4a6b5d;
+        --shadow-sm: 0 8px 20px rgba(27, 67, 50, 0.06);
+        --shadow-md: 0 16px 32px rgba(27, 67, 50, 0.1);
+        --shadow-lg: 0 24px 48px rgba(27, 67, 50, 0.15);
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --radius-sm: 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-main);
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Ambient background shapes */
+      .ambient-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .ambient-circle {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.45;
+      }
+
+      .circle-1 {
+        top: -10%;
+        left: -10%;
+        width: 500px;
+        height: 500px;
+        background: #b7e4c7;
+      }
+
+      .circle-2 {
+        bottom: -15%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: #d8f3dc;
+      }
+
+      /* Header Moderno */
+      header {
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid var(--card-border);
+        transition: all 0.3s ease;
+      }
+
+      .header-container {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        font-size: 2.2rem;
+        background: linear-gradient(135deg, #2d6a4f, #52b788);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 4px rgba(45, 106, 79, 0.2));
+      }
+
+      .logo-text {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--primary-dark);
+      }
+
+      .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 420px;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.8rem;
+        border-radius: 99px;
+        border: 1.5px solid var(--card-border);
+        background: rgba(255, 255, 255, 0.9);
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: var(--text-main);
+        transition: all 0.3s ease;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 4px rgba(82, 183, 136, 0.15);
+        background: #ffffff;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: var(--text-muted);
+        pointer-events: none;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .badge-location {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(45, 106, 79, 0.08);
+        padding: 0.5rem 1rem;
+        border-radius: 99px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--primary-dark);
+        border: 1px solid rgba(45, 106, 79, 0.12);
+      }
+
+      .btn-carrinho-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        padding: 0.7rem 1.4rem;
+        border-radius: 99px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 18px rgba(27, 67, 50, 0.2);
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-carrinho-header:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 12px 24px rgba(27, 67, 50, 0.28);
+      }
+
+      .carrinho-badge {
+        background: var(--accent);
+        color: white;
+        padding: 0.15rem 0.6rem;
+        border-radius: 99px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        min-width: 22px;
+        text-align: center;
+      }
+
+      /* Container Principal */
+      .main-container {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem 5rem;
+      }
+
+      /* Hero Banner Moderno */
+      .hero {
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.92),
+          rgba(240, 247, 242, 0.85)
+        );
+        border-radius: var(--radius-lg);
+        padding: 3.5rem 3rem;
+        margin-bottom: 3.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(12px);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+          circle,
+          rgba(82, 183, 136, 0.15) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(212, 163, 115, 0.15);
+        color: #9c663b;
+        padding: 0.4rem 1.1rem;
+        border-radius: 99px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        border: 1px solid rgba(212, 163, 115, 0.3);
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3.4rem;
+        font-weight: 800;
+        color: var(--primary-dark);
+        line-height: 1.15;
+        margin-bottom: 1rem;
+        max-width: 800px;
+      }
+
+      .hero h1 span {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 650px;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+      }
+
+      .hero-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: white;
+        padding: 0.7rem 1.3rem;
+        border-radius: 99px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-main);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--card-border);
+      }
+
+      /* Filtros de Categorias */
+      .catalog-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--primary-dark);
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .category-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+
+      .filter-btn {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid var(--card-border);
+        padding: 0.6rem 1.2rem;
+        border-radius: 99px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        box-shadow: 0 6px 16px rgba(45, 106, 79, 0.2);
+        transform: translateY(-1px);
+      }
+
+      /* Grid de Produtos Moderno */
+      .produtos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+
+      .produto-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-sm);
+        backdrop-filter: blur(12px);
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .produto-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(82, 183, 136, 0.5);
+        background: rgba(255, 255, 255, 0.96);
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+      }
+
+      .produto-id {
+        background: rgba(45, 106, 79, 0.1);
+        color: var(--primary-dark);
+        padding: 0.3rem 0.8rem;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+      }
+
+      .produto-categoria {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent-hover);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .icon-container {
+        width: 100%;
+        max-width: 200px;
+        height: 180px;
+        margin: 0 auto 1.5rem;
+        border-radius: 18px;
+        overflow: hidden;
+        background: radial-gradient(circle, #e8f3ec 0%, #d8f3dc 100%);
+        box-shadow:
+          inset 0 2px 8px rgba(0, 0, 0, 0.04),
+          0 8px 16px rgba(82, 183, 136, 0.12);
+        transition: transform 0.4s ease;
+      }
+
+      .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .produto-card:hover .icon-container {
+        transform: scale(1.02) rotate(0.5deg);
+      }
+
+      .produto-nome {
+        font-family: "Playfair Display", serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      .produto-descricao {
+        font-size: 0.92rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+        text-align: center;
+        min-height: 2.8em;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        background: #e8f5e9;
+        color: var(--primary-dark);
+        padding: 0.4rem 0.9rem;
+        border-radius: 99px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin: 0 auto 1.5rem;
+        border: 1px solid rgba(82, 183, 136, 0.3);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--primary-light);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(82, 183, 136, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 8px rgba(82, 183, 136, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(82, 183, 136, 0);
+        }
+      }
+
+      /* Quantidade & Botão */
+      .card-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .quantidade-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(244, 249, 245, 0.9);
+        border-radius: var(--radius-md);
+        padding: 0.3rem;
+        border: 1px solid var(--card-border);
+      }
+
+      .quantidade-btn {
+        background: white;
+        color: var(--primary-dark);
+        border: 1px solid rgba(82, 183, 136, 0.3);
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .quantidade-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .quantidade-btn:active {
+        transform: scale(0.92);
+      }
+
+      .quantidade-val {
+        width: 50px;
+        text-align: center;
+        border: none;
+        background: transparent;
+        font-family: inherit;
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: var(--primary-dark);
+      }
+
+      .btn-adicionar {
+        width: 100%;
+        padding: 0.9rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 18px rgba(45, 106, 79, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-adicionar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(45, 106, 79, 0.3);
+        background: linear-gradient(135deg, #347a5c, #1f4e3b);
+      }
+
+      .btn-adicionar:active {
+        transform: translateY(0);
+      }
+
+      .btn-detalhes {
+        background: transparent;
+        border: 1.5px dashed var(--card-border);
+        color: var(--text-muted);
+        padding: 0.6rem;
+        border-radius: var(--radius-md);
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-detalhes:hover {
+        border-color: var(--primary);
+        color: var(--primary-dark);
+        background: rgba(82, 183, 136, 0.05);
+      }
+
+      /* Seção 'Como Funciona' */
+      .como-funciona {
+        margin-top: 5rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: var(--radius-lg);
+        padding: 3rem 2rem;
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(12px);
+        text-align: center;
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        margin-top: 2.5rem;
+      }
+
+      .step-card {
+        background: white;
+        padding: 1.8rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-sm);
+        position: relative;
+      }
+
+      .step-num {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
+      }
+
+      .step-icon {
+        font-size: 2.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .step-card h4 {
+        font-size: 1.05rem;
+        color: var(--primary-dark);
+        margin-bottom: 0.4rem;
+      }
+
+      .step-card p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+      }
+
+      /* Footer Moderno */
+      footer {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark) 0%,
+          #0d281e 100%
+        );
+        color: white;
+        padding: 3.5rem 2rem 2rem;
+        margin-top: 5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-content {
+        max-width: 1240px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2.5rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-brand .logo-text {
+        color: white;
+      }
+
+      .footer-brand p {
+        color: #b7e4c7;
+        font-size: 0.95rem;
+        margin-top: 0.8rem;
+      }
+
+      .footer-section h4 {
+        font-size: 1.1rem;
+        color: #d8f3dc;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      .footer-section h4::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: var(--accent);
+      }
+
+      .footer-section p,
+      .footer-section li {
+        color: #a3c4bc;
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+        list-style: none;
+      }
+
+      .footer-bottom {
+        max-width: 1240px;
+        margin: 2rem auto 0;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #749c90;
+      }
+
+      /* Floating Cart Action Button */
+      .carrinho-flutuante {
+        position: fixed;
+        bottom: 35px;
+        right: 35px;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 12px 30px rgba(27, 67, 50, 0.4);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        text-decoration: none;
+        z-index: 999;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .carrinho-flutuante:hover {
+        transform: scale(1.12) translateY(-4px);
+        box-shadow: 0 18px 36px rgba(27, 67, 50, 0.5);
+      }
+
+      .carrinho-icon {
+        font-size: 1.8rem;
+      }
+
+      .carrinho-contador {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: var(--accent);
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 800;
+        border: 2px solid white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Toast / Notificação */
+      .toast-container {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        pointer-events: none;
+      }
+
+      .toast {
+        background: rgba(27, 67, 50, 0.95);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        border-left: 4px solid var(--primary-light);
+        pointer-events: auto;
+      }
+
+      @keyframes toastIn {
+        from {
+          transform: translateX(100px) scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Modal de Detalhes do Produto */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(13, 40, 30, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        max-width: 500px;
+        width: 100%;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        text-align: center;
+      }
+
+      .modal-overlay.active .modal-card {
+        transform: translateY(0) scale(1);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+      }
+
+      .modal-close:hover {
+        background: rgba(0, 0, 0, 0.1);
+        color: var(--text-main);
+      }
+
+      .modal-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .header-container {
+          flex-direction: column;
+          padding: 1rem;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at top left, rgba(140, 191, 150, 0.18), transparent 28%),
-                        radial-gradient(circle at bottom right, rgba(143, 194, 138, 0.16), transparent 28%),
-                        linear-gradient(180deg, #f6fbf6 0%, #eef7ef 35%, #f2faf4 100%);
-            color: #2d5a4a;
-            line-height: 1.6;
-            min-height: 100vh;
+        .search-box {
+          width: 100%;
+          max-width: 100%;
         }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #9fc8af 0%, #75b18f 100%);
-            padding: 2rem 0;
-            box-shadow: 0 12px 35px rgba(86, 153, 119, 0.18);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.12);
-            letter-spacing: 2px;
-        }
-
-        .logo-icon {
-            display: inline-block;
-            margin-right: 0.5rem;
-            font-size: 3rem;
-        }
-
-        .info-entrega {
-            background: rgba(255, 255, 255, 0.18);
-            padding: 0.9rem 1.6rem;
-            border-radius: 22px;
-            color: white;
-            font-size: 0.95rem;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-        }
-
-        .info-entrega strong {
-            display: block;
-            font-size: 0.9rem;
-            opacity: 0.95;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem 4rem;
-        }
-
-        /* Hero Section */
         .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-            animation: fadeInDown 0.8s ease-out;
-            padding: 2.5rem 2rem;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.76);
-            box-shadow: 0 24px 50px rgba(97, 144, 109, 0.1);
-            backdrop-filter: blur(10px);
+          padding: 2.5rem 1.5rem;
         }
 
         .hero h1 {
-            font-size: 3.2rem;
-            color: #386a57;
-            margin-bottom: 0.7rem;
-            font-weight: 900;
-            letter-spacing: 0.02em;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #4f8a70;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: #6ba58a;
-            font-style: italic;
-            letter-spacing: 0.03em;
-        }
-
-        /* Produtos Grid */
-        .produtos-section {
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            color: #3d7a65;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid #c8e6c9;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title::before {
-            content: "📦";
-            font-size: 2.2rem;
+          font-size: 2.2rem;
         }
 
         .produtos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            animation: fadeInUp 0.8s ease-out;
+          grid-template-columns: 1fr;
         }
 
-        .produto-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 24px;
-            padding: 2rem;
-            transition: all 0.35s ease;
-            box-shadow: 0 24px 45px rgba(92, 146, 113, 0.12);
-            border: 1px solid rgba(136, 196, 153, 0.3);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+        .catalog-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
-
-        .produto-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-            transition: left 0.6s;
-        }
-
-        .produto-card:hover::before {
-            left: 100%;
-        }
-
-        .produto-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 26px 50px rgba(80, 148, 110, 0.18);
-            border-color: rgba(127, 190, 154, 0.55);
-            background: rgba(239, 252, 245, 0.95);
-        }
-
-        .produto-id {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 56px;
-            background: #80b78a;
-            color: white;
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            margin-bottom: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-        }
-
-        .produto-icon {
-            font-size: 3.2rem;
-            margin-bottom: 1rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .produto-card:nth-child(2) .produto-icon {
-            animation-delay: 0.2s;
-        }
-
-        .produto-card:nth-child(3) .produto-icon {
-            animation-delay: 0.4s;
-        }
-
-        .produto-card:nth-child(4) .produto-icon {
-            animation-delay: 0.6s;
-        }
-
-        .produto-card:nth-child(5) .produto-icon {
-            animation-delay: 0.8s;
-        }
-
-        .produto-nome {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #3d7a65;
-            margin-bottom: 0.8rem;
-        }
-
-        .produto-descricao {
-            font-size: 0.9rem;
-            color: #5a9e88;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
-        }
-
-        .produto-status {
-            background: #d4edda;
-            color: #2d5a4a;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-        }
-
-        .produto-status::before {
-            content: "⏳";
-        }
-
-        .quantidade-input {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.2rem;
-            background: white;
-            padding: 0.5rem;
-            border-radius: 8px;
-            border: 2px solid #c8e6c9;
-        }
-
-        .quantidade-input button {
-            background: #a8d5ba;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .quantidade-input button:hover {
-            background: #7ec8a3;
-        }
-
-        .quantidade-input input {
-            width: 50px;
-            text-align: center;
-            border: none;
-            font-weight: 600;
-            color: #3d7a65;
-        }
-
-        .btn-adicionar {
-            width: 100%;
-            padding: 0.95rem;
-            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 10px 18px rgba(100, 156, 121, 0.18);
-        }
-
-        .btn-adicionar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 22px rgba(100, 156, 121, 0.25);
-        }
-
-        .btn-adicionar:active {
-            transform: translateY(0);
-            box-shadow: 0 8px 14px rgba(100, 156, 121, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #7dbb8f 0%, #5fa67c 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        footer p {
-            margin: 0.3rem 0;
-            font-size: 0.95rem;
-        }
-
-        footer strong {
-            display: block;
-            margin-top: 1rem;
-            font-size: 1.1rem;
-        }
-
-        /* Animações */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Notificação */
-        .notificacao {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #a8d5ba;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(122, 196, 150, 0.3);
-            animation: slideIn 0.5s ease-out;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Ícone Carrinho Flutuante */
-        .carrinho-flutuante {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #a8d5ba 0%, #7ec8a3 100%);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(122, 196, 150, 0.4);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            text-decoration: none;
-            z-index: 999;
-            border: 3px solid white;
-        }
-
-        .carrinho-flutuante:hover {
-            transform: scale(1.15);
-            box-shadow: 0 6px 30px rgba(122, 196, 150, 0.6);
-            bottom: 40px;
-        }
-
-        .carrinho-flutuante:active {
-            transform: scale(0.95);
-        }
-
-        .carrinho-icon {
-            font-size: 1.7rem;
-            animation: balancear 2s ease-in-out infinite;
-        }
-
-        .carrinho-contador {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #d4a5a5;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes balancear {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(-5deg);
-            }
-            75% {
-                transform: rotate(5deg);
-            }
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .logo {
-                font-size: 1.8rem;
-            }
-
-            .produtos-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .carrinho-flutuante {
-                bottom: 20px;
-                right: 20px;
-                width: 60px;
-                height: 60px;
-            }
-
-            .carrinho-icon {
-                font-size: 1.8rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="ambient-bg">
+      <div class="ambient-circle circle-1"></div>
+      <div class="ambient-circle circle-2"></div>
+    </div>
+
     <!-- Header -->
     <header>
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">🌿</span>LINHUZ
-            </div>
-            <div class="info-entrega">
-                <strong>📍 Entrega em Limeira, SP</strong>
-                Taxa fixa: R$ 10,00
-            </div>
+      <div class="header-container">
+        <a href="pag_inicio.html" class="logo">
+          <span class="logo-icon">🌿</span>
+          <span class="logo-text">LINHUZ</span>
+        </a>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar produtos artesanais..."
+            oninput="filtrarProdutos()"
+          />
         </div>
+
+        <div class="header-actions">
+          <div class="badge-location"><span>📍</span> Limeira, SP</div>
+          <button class="btn-carrinho-header" onclick="irParaCarrinho()">
+            <span>🛒 Carrinho</span>
+            <span class="carrinho-badge" id="carrinhoHeaderBadge">0</span>
+          </button>
+        </div>
+      </div>
     </header>
 
     <!-- Main Content -->
-    <div class="container">
-        <!-- Hero -->
-        <section class="hero">
-            <h1>Bem-vindo à LINHUZ</h1>
-            <p>Artesanatos exclusivos sob encomenda</p>
-            <p class="hero-subtitle">Todos os nossos produtos são feitos com carinho e dedicação</p>
-        </section>
+    <main class="main-container">
+      <!-- Hero Banner -->
+      <section class="hero">
+        <div class="hero-tag">✨ Peças Únicas & Especiais</div>
+        <h1>Artesanatos feitos com <span>amor e dedicação</span></h1>
+        <p>
+          Descubra nossa coleção exclusiva de crochês e decorações feitas sob
+          encomenda para transformar seu lar.
+        </p>
 
-        <!-- Produtos -->
-        <section class="produtos-section">
-            <h2 class="section-title">Nossos Produtos</h2>
-            <div class="produtos-grid">
-                <!-- Produto 1 -->
-                <div class="produto-card">
-                    <span class="produto-id">ID: 01</span>
-                    <div class="produto-icon">✨</div>
-                    <h3 class="produto-nome">Filtro dos Sonhos</h3>
-                    <p class="produto-descricao">Lindo filtro dos sonhos artesanal, feito à mão com detalhes delicados</p>
-                    <div class="produto-status">Sob Encomenda</div>
-                    <div class="quantidade-input">
-                        <button onclick="diminuir(this)">−</button>
-                        <input type="number" value="1" min="1" readonly>
-                        <button onclick="aumentar(this)">+</button>
-                    </div>
-                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Filtro dos Sonhos', this)">Adicionar ao Carrinho</button>
-                </div>
+        <div class="hero-pills">
+          <div class="hero-pill"><span>🧶</span> 100% Manufaturado</div>
+          <div class="hero-pill">
+            <span>🚚</span> Entrega em Limeira, SP (Taxa R$ 10)
+          </div>
+          <div class="hero-pill"><span>⏳</span> Produção Sob Encomenda</div>
+        </div>
+      </section>
 
-                <!-- Produto 2 -->
-                <div class="produto-card">
-                    <span class="produto-id">ID: 02</span>
-                    <div class="produto-icon">👜</div>
-                    <h3 class="produto-nome">Bolça de Crochê</h3>
-                    <p class="produto-descricao">Bolsa elegante feita em crochê, ideal para qualquer ocasião</p>
-                    <div class="produto-status">Sob Encomenda</div>
-                    <div class="quantidade-input">
-                        <button onclick="diminuir(this)">−</button>
-                        <input type="number" value="1" min="1" readonly>
-                        <button onclick="aumentar(this)">+</button>
-                    </div>
-                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bolça de Crochê', this)">Adicionar ao Carrinho</button>
-                </div>
+      <!-- Catálogo de Produtos -->
+      <section>
+        <div class="catalog-header">
+          <h2 class="section-title"><span>📦</span> Catálogo de Produtos</h2>
 
-                <!-- Produto 3 -->
-                <div class="produto-card">
-                    <span class="produto-id">ID: 03</span>
-                    <div class="produto-icon">🪑</div>
-                    <h3 class="produto-nome">Bincos Artesanais</h3>
-                    <p class="produto-descricao">Bancos decorativos artesanais, peças únicas para sua casa</p>
-                    <div class="produto-status">Sob Encomenda</div>
-                    <div class="quantidade-input">
-                        <button onclick="diminuir(this)">−</button>
-                        <input type="number" value="1" min="1" readonly>
-                        <button onclick="aumentar(this)">+</button>
-                    </div>
-                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bincos Artesanais', this)">Adicionar ao Carrinho</button>
-                </div>
+          <div class="category-filters">
+            <button
+              class="filter-btn active"
+              onclick="filtrarCategoria('todas', this)"
+            >
+              Todos
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filtrarCategoria('croche', this)"
+            >
+              Crochê
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filtrarCategoria('decoracao', this)"
+            >
+              Decoração
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filtrarCategoria('acessorios', this)"
+            >
+              Acessórios
+            </button>
+          </div>
+        </div>
 
-                <!-- Produto 4 -->
-                <div class="produto-card">
-                    <span class="produto-id">ID: 04</span>
-                    <div class="produto-icon">👚</div>
-                    <h3 class="produto-nome">Top de Crochê</h3>
-                    <p class="produto-descricao">Top moderno em crochê fino, elegante e confortável</p>
-                    <div class="produto-status">Sob Encomenda</div>
-                    <div class="quantidade-input">
-                        <button onclick="diminuir(this)">−</button>
-                        <input type="number" value="1" min="1" readonly>
-                        <button onclick="aumentar(this)">+</button>
-                    </div>
-                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Top de Crochê', this)">Adicionar ao Carrinho</button>
-                </div>
-
-                <!-- Produto 5 -->
-                <div class="produto-card">
-                    <span class="produto-id">ID: 05</span>
-                    <div class="produto-icon">🎀</div>
-                    <h3 class="produto-nome">Bandana</h3>
-                    <p class="produto-descricao">Bandana estilosa e confortável, perfeita para qualquer estilo</p>
-                    <div class="produto-status">Sob Encomenda</div>
-                    <div class="quantidade-input">
-                        <button onclick="diminuir(this)">−</button>
-                        <input type="number" value="1" min="1" readonly>
-                        <button onclick="aumentar(this)">+</button>
-                    </div>
-                    <button class="btn-adicionar" onclick="adicionarAoCarrinho('Bandana', this)">Adicionar ao Carrinho</button>
-                </div>
+        <div class="produtos-grid" id="produtosGrid">
+          <!-- Produto 1 -->
+          <div
+            class="produto-card"
+            data-nome="Filtro dos Sonhos"
+            data-categoria="decoracao"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #01</span>
+                <span class="produto-categoria">Decoração</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens/75ace692-0f27-4d83-a751-3bb25500ad44.jpg"
+                  alt="Filtro dos Sonhos"
+                />
+              </div>
+              <h3 class="produto-nome">Filtro dos Sonhos</h3>
+              <p class="produto-descricao">
+                Lindo filtro dos sonhos artesanal, feito à mão com teias
+                detalhadas e penas delicadas.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
             </div>
-        </section>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Filtro dos Sonhos', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    1,
+                    'Filtro dos Sonhos',
+                    '✨',
+                    'Lindo filtro dos sonhos artesanal, feito à mão com teias detalhadas e penas delicadas. Ideal para quartos e salas.',
+                    'Decoração',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Produto 2 -->
+          <div
+            class="produto-card"
+            data-nome="Bolça de Crochê"
+            data-categoria="croche acessorios"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #02</span>
+                <span class="produto-categoria">Crochê</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens/6885ca44-c494-443d-8958-1c9f22bac937.jpg"
+                  alt="Bolça de Crochê"
+                />
+              </div>
+              <h3 class="produto-nome">Bolça de Crochê</h3>
+              <p class="produto-descricao">
+                Bolsa elegante e resistente feita em crochê, versátil para
+                qualquer passeio.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Bolça de Crochê', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    2,
+                    'Bolça de Crochê',
+                    '👜',
+                    'Bolsa elegante e resistente feita em crochê artesanal, com alças confortáveis e acabamento impecável.',
+                    'Crochê & Acessórios',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Produto 3 -->
+          <div
+            class="produto-card"
+            data-nome="Brincos Artesanais"
+            data-categoria="acessorios"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #03</span>
+                <span class="produto-categoria">Acessórios</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens/28a7c07b-c719-4d34-b5c3-8fff8a2b76d2.jpg"
+                  alt="Brincos Artesanais"
+                />
+              </div>
+              <h3 class="produto-nome">Brincos Artesanais</h3>
+              <p class="produto-descricao">
+                Brincos artesanais delicados, criativos e cheios de
+                personalidade.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Brincos Artesanais', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    3,
+                    'Brincos Artesanais',
+                    '✨',
+                    'Brincos artesanais delicados, criativos e cheios de personalidade, perfeitos para um visual único.',
+                    'Acessórios',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Produto 4 -->
+          <div
+            class="produto-card"
+            data-nome="Top de Crochê"
+            data-categoria="croche"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #04</span>
+                <span class="produto-categoria">Crochê</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens/60ced8b6-aa30-4ba9-abd6-92b2a27c3fbc.jpg"
+                  alt="Top de Crochê"
+                />
+              </div>
+              <h3 class="produto-nome">Top de Crochê</h3>
+              <p class="produto-descricao">
+                Top moderno e estiloso em crochê fino, leve, elegante e super
+                confortável.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Top de Crochê', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    4,
+                    'Top de Crochê',
+                    '👚',
+                    'Top moderno confeccionado em crochê fino com linha macia e caimento perfeito sob medida.',
+                    'Crochê',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Produto 5 -->
+          <div
+            class="produto-card"
+            data-nome="Bandana"
+            data-categoria="acessorios"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #05</span>
+                <span class="produto-categoria">Acessórios</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens/fa410c0e-a89e-4589-807e-428802070f50.jpg"
+                  alt="Bandana"
+                />
+              </div>
+              <h3 class="produto-nome">Bandana</h3>
+              <p class="produto-descricao">
+                Bandana estilosa e charmosinha, perfeita para compor seu visual
+                diário.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Bandana', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    5,
+                    'Bandana',
+                    '🎀',
+                    'Bandana estilosa tecida artesanalmente, com toque macio e ajuste confortável.',
+                    'Acessórios',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Produto 6 -->
+          <div
+            class="produto-card"
+            data-nome="Cachicol"
+            data-categoria="acessorios"
+          >
+            <div>
+              <div class="card-top">
+                <span class="produto-id">ID: #06</span>
+                <span class="produto-categoria">Acessórios</span>
+              </div>
+              <div class="icon-container">
+                <img
+                  class="product-image"
+                  src="imagens\f836dedc-74e4-433c-b1e5-fe8f7de2cfd0.jpg"
+                  alt="Cachicol"
+                />
+              </div>
+              <h3 class="produto-nome">Cachicol</h3>
+              <p class="produto-descricao">
+                Accessório artesanal delicado, prático e cheio de charme para
+                usar no dia a dia.
+              </p>
+              <div class="status-badge">
+                <span class="status-dot"></span> Sob Encomenda
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <div class="quantidade-control">
+                <button class="quantidade-btn" onclick="diminuir(this)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  class="quantidade-val"
+                  value="1"
+                  min="1"
+                  readonly
+                />
+                <button class="quantidade-btn" onclick="aumentar(this)">
+                  +
+                </button>
+              </div>
+              <button
+                class="btn-adicionar"
+                onclick="adicionarAoCarrinho('Cachicol', this)"
+              >
+                <span>🛒 Adicionar ao Carrinho</span>
+              </button>
+              <button
+                class="btn-detalhes"
+                onclick="
+                  abrirModal(
+                    6,
+                    'Cachicol',
+                    '🧣',
+                    'Cachicol artesanal com acabamento delicado, confortável e ideal para compor looks exclusivos.',
+                    'Acessórios',
+                  )
+                "
+              >
+                🔍 Ver Detalhes
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 'Como Funciona' -->
+      <section class="como-funciona">
+        <h2 class="section-title" style="justify-content: center">
+          <span>💡</span> Como Encomendar em 4 Passos
+        </h2>
+        <p style="color: var(--text-muted); margin-top: 0.5rem">
+          Processo simples e direto para garantir seu produto exclusivo
+        </p>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-icon">🛍️</div>
+            <h4>Escolha seus Produtos</h4>
+            <p>
+              Navegue pelo catálogo e adicione os itens desejados ao carrinho.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-icon">📝</div>
+            <h4>Preencha os Dados</h4>
+            <p>Informe seu endereço em Limeira/SP para a entrega do pedido.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-icon">💬</div>
+            <h4>Envie no WhatsApp</h4>
+            <p>
+              Ao finalizar, enviamos os detalhes organizados direto para nosso
+              WhatsApp.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div class="step-icon">🎁</div>
+            <h4>Receba em Casa</h4>
+            <p>
+              Produzimos com carinho e entregamos na sua porta com taxa fixa de
+              R$ 10,00.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal de Detalhes -->
+    <div class="modal-overlay" id="productModal">
+      <div class="modal-card">
+        <button class="modal-close" onclick="fecharModal()">✕</button>
+        <div class="modal-icon" id="modalIcon">✨</div>
+        <span class="produto-id" id="modalId">ID: #01</span>
+        <h3 class="produto-nome" id="modalNome" style="margin-top: 0.8rem">
+          Nome do Produto
+        </h3>
+        <span class="produto-categoria" id="modalCategoria">Categoria</span>
+        <p
+          class="produto-descricao"
+          id="modalDescricao"
+          style="margin: 1.2rem 0; min-height: auto; text-align: center"
+        >
+          Descrição completa...
+        </p>
+        <div class="status-badge" style="margin-bottom: 1.5rem">
+          <span class="status-dot"></span> Sob Encomenda (Limeira, SP)
+        </div>
+        <button class="btn-adicionar" id="modalBtnAdd" onclick="">
+          <span>🛒 Adicionar ao Carrinho</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Container de Toasts -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Botão Flutuante Carrinho -->
+    <a
+      class="carrinho-flutuante"
+      onclick="irParaCarrinho()"
+      title="Ir para o carrinho"
+    >
+      <span class="carrinho-icon">🛒</span>
+      <span class="carrinho-contador" id="carrinhoFlutuanteBadge">0</span>
+    </a>
 
     <!-- Footer -->
     <footer>
-        <p>🌿 LINHUZ - Artesanatos com Amor</p>
-        <p>Todos os produtos são sob encomenda</p>
-        <strong>Envios apenas para Limeira, São Paulo</strong>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="pag_inicio.html" class="logo">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-text">LINHUZ</span>
+          </a>
+          <p>
+            Artesanatos e crochês exclusivos feitos sob encomenda com carinho e
+            atenção em cada detalhe.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>📍 Atendimento</h4>
+          <p>Entrega Exclusiva em Limeira - SP</p>
+          <p>Taxa Fixa: R$ 10,00</p>
+          <p>WhatsApp: (19) 98169-9376</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>✨ Nossos Produtos</h4>
+          <ul>
+            <li>Filtro dos Sonhos</li>
+            <li>Bolsas & Tops de Crochê</li>
+            <li>Bancos Decorativos</li>
+            <li>Bandanas Exclusivas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 LINHUZ Artesanatos - Todos os direitos reservados. Feito
+          com amor.
+        </p>
+      </div>
     </footer>
 
+    <!-- JavaScript Moderno -->
     <script>
-        function aumentar(btn) {
-            const input = btn.previousElementSibling;
-            input.value = parseInt(input.value) + 1;
-        }
+      // Função para aumentar quantidade no card
+      function aumentar(btn) {
+        const input = btn.previousElementSibling;
+        input.value = parseInt(input.value, 10) + 1;
+      }
 
-        function diminuir(btn) {
-            const input = btn.nextElementSibling;
-            if (parseInt(input.value) > 1) {
-                input.value = parseInt(input.value) - 1;
+      // Função para diminuir quantidade no card
+      function diminuir(btn) {
+        const input = btn.nextElementSibling;
+        if (parseInt(input.value, 10) > 1) {
+          input.value = parseInt(input.value, 10) - 1;
+        }
+      }
+
+      // Adicionar produto ao carrinho
+      function adicionarAoCarrinho(nomeProduto, element) {
+        let quantidade = 1;
+
+        if (element) {
+          // Tenta achar o input no card pai
+          const card =
+            element.closest(".produto-card") || element.closest(".modal-card");
+          if (card) {
+            const input = card.querySelector(".quantidade-val");
+            if (input) {
+              quantidade = parseInt(input.value, 10) || 1;
             }
+          }
         }
 
-        function adicionarAoCarrinho(nomeProduto, btn) {
-            const input = btn.previousElementSibling.querySelector('input');
-            const quantidade = input.value;
+        const carrinho = JSON.parse(localStorage.getItem("carrinho") || "[]");
+        const itemExistente = carrinho.find(
+          (item) => item.nome === nomeProduto,
+        );
 
-            // Simular adição ao carrinho
-            mostrarNotificacao(`✓ ${nomeProduto} (${quantidade}x) adicionado ao carrinho!`);
-
-            // Armazenar no localStorage
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-            const itemExistente = carrinho.find(item => item.nome === nomeProduto);
-
-            if (itemExistente) {
-                itemExistente.quantidade += parseInt(quantidade, 10);
-            } else {
-                carrinho.push({ nome: nomeProduto, quantidade: parseInt(quantidade, 10) });
-            }
-
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarContadorCarrinho();
+        if (itemExistente) {
+          itemExistente.quantidade += quantidade;
+        } else {
+          carrinho.push({ nome: nomeProduto, quantidade: quantidade });
         }
 
-        function mostrarNotificacao(mensagem) {
-            const notif = document.createElement('div');
-            notif.className = 'notificacao';
-            notif.textContent = mensagem;
-            document.body.appendChild(notif);
+        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        atualizarContadorCarrinho();
 
-            setTimeout(() => {
-                notif.remove();
-            }, 3000);
+        // Feedback Toast Moderno
+        mostrarToast(
+          `✓ <strong>${quantidade}x ${nomeProduto}</strong> adicionado ao carrinho!`,
+        );
+
+        // Animação de clique no botão
+        if (element) {
+          element.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            element.style.transform = "";
+          }, 200);
         }
+      }
 
-        function atualizarContadorCarrinho() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-            const contador = document.querySelector('.carrinho-contador');
-            if (contador) {
-                contador.textContent = carrinho.reduce((total, item) => total + item.quantidade, 0);
-            }
-        }
+      // Atualizar badges do carrinho no header e botão flutuante
+      function atualizarContadorCarrinho() {
+        const carrinho = JSON.parse(localStorage.getItem("carrinho") || "[]");
+        const total = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
 
-        function irParaCarrinho() {
-            window.location.href = 'carrin.html';
-        }
+        const badgeHeader = document.getElementById("carrinhoHeaderBadge");
+        const badgeFlutuante = document.getElementById(
+          "carrinhoFlutuanteBadge",
+        );
 
-        // Atualizar contador ao carregar a página
-        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+        if (badgeHeader) badgeHeader.textContent = total;
+        if (badgeFlutuante) badgeFlutuante.textContent = total;
+      }
+
+      // Toast Notification System
+      function mostrarToast(mensagem) {
+        const container = document.getElementById("toastContainer");
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.innerHTML = `<span>✨</span> <div>${mensagem}</div>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = "toastIn 0.3s reverse ease forwards";
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      }
+
+      // Navegação para carrinho
+      function irParaCarrinho() {
+        window.location.href = "carrin.html";
+      }
+
+      // Filtrar por busca em tempo real
+      function filtrarProdutos() {
+        const termo = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const cards = document.querySelectorAll(".produto-card");
+
+        cards.forEach((card) => {
+          const nome = card.dataset.nome.toLowerCase();
+          const desc = card
+            .querySelector(".produto-descricao")
+            .textContent.toLowerCase();
+          if (nome.includes(termo) || desc.includes(termo)) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      // Filtrar por Categoria
+      function filtrarCategoria(categoria, btn) {
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+
+        const cards = document.querySelectorAll(".produto-card");
+        cards.forEach((card) => {
+          const catCard = card.dataset.categoria;
+          if (categoria === "todas" || catCard.includes(categoria)) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      // Modal de Detalhes
+      function abrirModal(id, nome, icone, descricao, categoria) {
+        document.getElementById("modalIcon").textContent = icone;
+        document.getElementById("modalId").textContent =
+          `ID: #${id < 10 ? "0" + id : id}`;
+        document.getElementById("modalNome").textContent = nome;
+        document.getElementById("modalCategoria").textContent = categoria;
+        document.getElementById("modalDescricao").textContent = descricao;
+
+        const btnAdd = document.getElementById("modalBtnAdd");
+        btnAdd.onclick = function () {
+          adicionarAoCarrinho(nome, null);
+          fecharModal();
+        };
+
+        document.getElementById("productModal").classList.add("active");
+      }
+
+      function fecharModal() {
+        document.getElementById("productModal").classList.remove("active");
+      }
+
+      // Fechar modal ao clicar fora
+      document
+        .getElementById("productModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) fecharModal();
+        });
+
+      // Inicializar contador ao carregar
+      document.addEventListener("DOMContentLoaded", atualizarContadorCarrinho);
     </script>
-    <a class="carrinho-flutuante" onclick="irParaCarrinho()" title="Ir para o carrinho">
-        <span class="carrinho-icon">🛒</span>
-        <span class="carrinho-contador">0</span>
-    </a>
-</body>
+  </body>
 </html>
